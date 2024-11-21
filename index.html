@@ -10,65 +10,22 @@
       body {
         margin: 0;
         font-family: Arial, sans-serif;
-      }
-      #controls {
-        position: absolute;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 1000;
-      }
-      button {
-        margin: 5px;
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: bold;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        background-color: #007BFF;
-        color: white;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        transition: background-color 0.3s;
-      }
-      button:hover {
-        background-color: #0056b3;
-      }
-      button:active {
-        background-color: #003f7f;
+        overflow: hidden;
       }
     </style>
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function () {
         const sceneEl = document.querySelector("a-scene");
-        let arSystem;
-        sceneEl.addEventListener("loaded", function() {
-          arSystem = sceneEl.systems["mindar-image-system"];
+        sceneEl.addEventListener("loaded", () => {
+          const arSystem = sceneEl.systems["mindar-image-system"];
+          arSystem.start(); // Iniciar automáticamente AR
         });
-        const startButton = document.querySelector("#start-button");
-        const stopButton = document.querySelector("#stop-button");
-        const pauseButton = document.querySelector("#pause-button");
-        const pauseKeepVideoButton = document.querySelector("#pause-keep-video-button");
-        const unpauseButton = document.querySelector("#unpause-button");
-
-        startButton.addEventListener("click", () => arSystem.start());
-        stopButton.addEventListener("click", () => arSystem.stop());
-        pauseButton.addEventListener("click", () => arSystem.pause());
-        pauseKeepVideoButton.addEventListener("click", () => arSystem.pause(true));
-        unpauseButton.addEventListener("click", () => arSystem.unpause());
       });
     </script>
   </head>
   <body>
-    <div id="controls">
-      <button id="start-button">Start</button>
-      <button id="pause-button">Pause</button>
-      <button id="pause-keep-video-button">Pause (Keep Video)</button>
-      <button id="unpause-button">Unpause</button>
-      <button id="stop-button">Stop</button>
-    </div>
     <a-scene
-      mindar-image="imageTargetSrc: targets.mind; autoStart: false;"
+      mindar-image="imageTargetSrc: targets.mind; autoStart: true;"
       color-space="sRGB"
       renderer="colorManagement: true, physicallyCorrectLights"
       vr-mode-ui="enabled: false"
@@ -84,9 +41,9 @@
         <a-gltf-model
           id="botijo"
           src="botijo.glb"
-          position="0 0 0"
-          scale="0.5 0.5 0.5"
-          rotation="0 0 0"
+          position="0 0 0.5"
+          scale="10 10 10"
+          animation="property: position; to: 0 0.7 0.5; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
         ></a-gltf-model>
       </a-entity>
     </a-scene>
