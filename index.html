@@ -24,24 +24,34 @@
     </script>
   </head>
   <body>
-    <a-scene>
-  <!-- Cámara -->
-  <a-camera position="0 0 5" look-controls="enabled: false"></a-camera>
-
-  <!-- Lluvia de partículas azules -->
+    <a-scene
+      mindar-image="imageTargetSrc: targets.mind; autoStart: true;"
+      color-space="sRGB"
+      renderer="colorManagement: true, physicallyCorrectLights"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false"
+    >
+      <a-camera
+        position="0 0 0"
+        look-controls="enabled: false"
+        cursor="fuse: false; rayOrigin: mouse;"
+        raycaster="near: 10; far: 10000; objects: .clickable"
+      ></a-camera>
+      <!-- Lluvia de partículas azules -->
   <a-entity 
-    particle-system="preset: snow; particleCount: 1000; color: #0000FF; velocityValue: 0 -1 0; size: 0.1; 
-    maxAge: 2; opacity: 0.5; rate: 3000">
+    particle-system="preset: snow; particleCount: 1000; color: #0000FF; velocityValue: 0 1 0; size: 0.5">
   </a-entity>
 
-  <!-- Modelo 3D (botijo) -->
-  <a-entity 
-    gltf-model="botijo.glb"
-    position="0 1 0"
-    scale="10 10 10"
-    animation="property: position; to: 0 1.1 0; loop: true; dur: 2000; dir: alternate; easing: easeInOutSine"
-    animation__rotation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
-  </a-entity>
-</a-scene>
+      <a-entity id="example-target" mindar-image-target="targetIndex: 0">
+        <a-gltf-model
+          id="botijo"
+          src="botijo.glb"
+          position="0 0 0.5"
+          scale="10 10 10"
+          animation="property: position; to: 0 0.7 0.5; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
+          animation__rotation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear"
+        ></a-gltf-model>
+      </a-entity>
+    </a-scene>
   </body>
 </html>
