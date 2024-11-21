@@ -1,88 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="AR Experience con MindAR.js">
-  <title>AR Botijo</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mind-ar-js@1.1.4/dist/mindar-image.min.css">
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-    }
-    #ar-container {
-      width: 100vw;
-      height: 100vh;
-      background-color: black;
-    }
-    .error-message {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <div id="ar-container">
-    <mindar-viewer
-      id="viewer"
-      auto-start="true"
-      color-space="sRGB"
-      ui-loading="yes"
-      ui-scanning="yes"
-      ui-error="yes"
-      fit="cover"
-      debug="true"
-    >
-      <mindar-image-target src="./targets.mind" target-index="0">
-        <a-entity
-          gltf-model="./botijo.glb"
-          position="0 0 0"
-          scale="0.5 0.5 0.5"
-          rotation="0 0 0"
-        ></a-entity>
-      </mindar-image-target>
-    </mindar-viewer>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AR Botijo</title>
+    <!-- Enlaces a las librerías de MindAR.js y A-Frame -->
+    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image.prod.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image-aframe.prod.js"></script>
+  </head>
+  <body>
+    <!-- Escena de A-Frame y MindAR -->
+    <a-scene mindar-image="targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      <a-assets>
+        <img id="card" src="Boceto_silla.png" />
+        <a-asset-item id="avatarModel" src="BOTIJO.GLB"></a-asset-item>
+      </a-assets>
 
-  <div id="error-message" class="error-message" style="display: none;">
-    <p>No se puede acceder a la cámara.</p>
-    <p>Asegúrate de haber permitido el acceso en la configuración del navegador.</p>
-  </div>
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar-js@1.1.4/dist/mindar-image.min.js"></script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const viewer = document.querySelector("#viewer");
-      const errorMessage = document.querySelector("#error-message");
-
-      navigator.mediaDevices.getUserMedia({ video: true })
-        .then((stream) => {
-          console.log("Acceso a la cámara concedido.");
-        })
-        .catch((error) => {
-          console.error("Error al acceder a la cámara:", error);
-          errorMessage.style.display = "block"; // Mostrar mensaje de error
-        });
-
-      viewer.addEventListener("start", () => console.log("AR iniciado"));
-      viewer.addEventListener("stop", () => console.log("AR detenido"));
-
-      // Detectar si la cámara no se inicializa correctamente
-      setTimeout(() => {
-        if (!viewer || viewer.style.display === "none") {
-          errorMessage.style.display = "block";
-          console.error("La cámara no se pudo inicializar.");
-        }
-      }, 5000);
-    });
-  </script>
-</body>
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
+        <a-gltf-model rotation="0 0 0" position="0 0 0.1" scale="0.005 0.005 0.005" src="#avatarModel" animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"></a-gltf-model>
+      </a-entity>
+    </a-scene>
+  </body>
 </html>
