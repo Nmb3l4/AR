@@ -18,60 +18,39 @@
       background-color: black; /* Fondo negro en caso de que la cámara no funcione */
     }
   </style>
-  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-
 </head>
 <body>
   <!-- Contenedor para la experiencia AR -->
   <div id="ar-container">
-    <mindar-viewer
-      id="viewer"
-      auto-start="true"
+    <a-scene 
+      mindar-image="imageTargetSrc: targets.mind;"
       color-space="sRGB"
-      ui-loading="yes"
-      ui-scanning="yes"
-      ui-error="yes"
-      fit="cover"
-      debug="true"
-    >
-      <!-- Configuración del marcador -->
-      <mindar-image-target src="targets.mind" target-index="0">
-        <!-- Modelo 3D -->
-        <a-entity
-          gltf-model="botijo.glb"
-          position="0 0 0"
-          scale="0.5 0.5 0.5"
-          rotation="0 0 0"
-        ></a-entity>
-      </mindar-image-target>
-    </mindar-viewer>
+      embedded
+      arjs
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false">
+      
+      <!-- Activos -->
+      <a-assets>
+        <a-asset-item id="botijoModel" src="botijo.glb"></a-asset-item>
+      </a-assets>
+
+      <!-- Cámara -->
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+      <!-- Marcador y modelo -->
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-gltf-model 
+          src="#botijoModel" 
+          position="0 0 0" 
+          scale="0.5 0.5 0.5">
+        </a-gltf-model>
+      </a-entity>
+    </a-scene>
   </div>
 
   <!-- Librerías necesarias -->
-  <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image.prod.js"></script>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar-js@1.1.4/dist/mindar-image.min.js"></script>
-
-  <!-- Configuración adicional -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const viewer = document.querySelector("#viewer");
-
-      // Detectar inicio y parada de la experiencia
-      viewer.addEventListener("start", () => console.log("AR iniciado"));
-      viewer.addEventListener("stop", () => console.log("AR detenido"));
-
-      // Solicitar acceso a la cámara manualmente si no se solicita automáticamente
-      navigator.mediaDevices.getUserMedia({ video: true })
-        .then((stream) => {
-          console.log("Acceso a la cámara concedido.");
-        })
-        .catch((error) => {
-          console.error("Error al acceder a la cámara:", error);
-          alert("No se pudo acceder a la cámara. Por favor, habilita el acceso.");
-        });
-    });
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar-js@1.1.4/dist/mindar-image-aframe.prod.js"></script>
 </body>
 </html>
