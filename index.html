@@ -15,7 +15,16 @@
     #ar-container {
       width: 100vw;
       height: 100vh;
-      background-color: black; /* Fondo negro en caso de que la cámara no funcione */
+      background-color: black;
+    }
+    .error-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
     }
   </style>
 </head>
@@ -45,6 +54,12 @@
     </mindar-viewer>
   </div>
 
+  <!-- Mensaje de error (solo visible si hay problemas) -->
+  <div id="error-message" class="error-message" style="display: none;">
+    <p>No se pudo acceder a la cámara.</p>
+    <p>Asegúrate de haber permitido el acceso en la configuración del navegador.</p>
+  </div>
+
   <!-- Librerías necesarias -->
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar-js@1.1.4/dist/mindar-image.min.js"></script>
@@ -53,20 +68,27 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const viewer = document.querySelector("#viewer");
+      const errorMessage = document.querySelector("#error-message");
 
       // Detectar inicio y parada de la experiencia
       viewer.addEventListener("start", () => console.log("AR iniciado"));
       viewer.addEventListener("stop", () => console.log("AR detenido"));
 
-      // Solicitar acceso a la cámara manualmente si no se solicita automáticamente
+      // Solicitar acceso a la cámara explícitamente
       navigator.mediaDevices.getUserMedia({ video: true })
         .then((stream) => {
           console.log("Acceso a la cámara concedido.");
         })
         .catch((error) => {
           console.error("Error al acceder a la cámara:", error);
-          alert("No se pudo acceder a la cámara. Por favor, habilita el acceso.");
+          errorMessage.style.display = "block"; // Mostrar mensaje de error
         });
+
+      // Safari: evitar problemas de inicialización
+      if (!viewer) {
+        console.error("No se pudo inicializar MindAR.js. Verifica la configuración.");
+        errorMessage.style.display = "block";
+      }
     });
   </script>
 </body>
