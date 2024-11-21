@@ -1,56 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="AR Experience con MindAR.js">
-  <title>AR Botijo</title>
-  <!-- Estilo de MindAR.js -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mind-ar-js@1.1.4/dist/mindar-image.min.css">
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-    }
-    #ar-container {
-      width: 100vw;
-      height: 100vh;
-      background-color: black; /* Fondo negro en caso de que la cámara no funcione */
-    }
-  </style>
-</head>
-<body>
-  <!-- Contenedor para la experiencia AR -->
-  <div id="ar-container">
-    <a-scene 
-      mindar-image="imageTargetSrc: targets.mind;"
-      color-space="sRGB"
-      embedded
-      arjs
-      vr-mode-ui="enabled: false"
-      device-orientation-permission-ui="enabled: false">
-      
-      <!-- Activos -->
-      <a-assets>
-        <a-asset-item id="botijoModel" src="botijo.glb"></a-asset-item>
-      </a-assets>
+<!--
+ Basic example
+-->
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AR Botijo 2</title>
+    <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/16/Stats.min.js"></script>
+    <script src="../../src/image-target/aframe.js" type="module"></script>
+   
+    <style>
+      body {
+        margin: 0;
+      }
+      .example-container {
+        overflow: hidden;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
 
-      <!-- Cámara -->
-      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+  <body>
+    <div class="example-container">
+      <a-scene mindar-image="imageTargetSrc: targets.mind; showStats: true;" embedded color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+        <a-assets>
+          <img id="card" src="Boceto_silla.png" />
+          <a-asset-item id="avatarModel" src="botijo.glb"></a-asset-item>
+        </a-assets>
 
-      <!-- Marcador y modelo -->
-      <a-entity mindar-image-target="targetIndex: 0">
-        <a-gltf-model 
-          src="#botijoModel" 
-          position="0 0 0" 
-          scale="0.5 0.5 0.5">
-        </a-gltf-model>
-      </a-entity>
-    </a-scene>
-  </div>
+        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-  <!-- Librerías necesarias -->
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar-js@1.1.4/dist/mindar-image-aframe.prod.js"></script>
-</body>
+        <a-entity mindar-image-target="targetIndex: 0">
+          <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
+
+          <a-gltf-model rotation="0 0 0 " position="0 0 0.1" scale="0.005 0.005 0.005" src="#avatarModel"
+            animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
+          >
+        </a-entity>
+      </a-scene>
+    </div>
+  </body>
 </html>
