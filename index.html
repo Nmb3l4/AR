@@ -3,14 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AR Experience con MindAR.js">
   <title>AR Experience</title>
-  <!-- MindAR.js CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mind-ar-js@1.1.4/dist/mindar-face.min.css">
+  <!-- Estilo de MindAR.js -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mind-ar-js@1.1.4/dist/mindar-image.min.css">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+    #ar-container {
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
 </head>
 <body>
-  <!-- Contenedor de la experiencia AR -->
+  <!-- Contenedor para la experiencia AR -->
   <div id="ar-container">
-    <video id="video" autoplay playsinline style="display: none;"></video>
     <mindar-viewer
       id="viewer"
       auto-start="true"
@@ -21,9 +31,9 @@
       fit="cover"
       debug="false"
     >
-      <!-- Define el marcador -->
+      <!-- Configuración del marcador -->
       <mindar-image-target src="./targets.mind" target-index="0">
-        <!-- Modelo 3D que se mostrará -->
+        <!-- Modelo 3D -->
         <a-entity
           gltf-model="./botijo.glb"
           position="0 0 0"
@@ -34,11 +44,11 @@
     </mindar-viewer>
   </div>
 
-  <!-- A-Frame para 3D -->
+  <!-- Librerías necesarias -->
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <!-- MindAR.js Script -->
   <script src="https://cdn.jsdelivr.net/npm/mind-ar-js@1.1.4/dist/mindar-image.min.js"></script>
-  <!-- Configuración inicial -->
+
+  <!-- Configuración adicional -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const viewer = document.querySelector("#viewer");
@@ -48,3 +58,4 @@
   </script>
 </body>
 </html>
+
