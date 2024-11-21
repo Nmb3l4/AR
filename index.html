@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR Experience</title>
+  <!-- MindAR.js CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mind-ar-js@1.1.4/dist/mindar-face.min.css">
+</head>
+<body>
+  <!-- Contenedor de la experiencia AR -->
+  <div id="ar-container">
+    <video id="video" autoplay playsinline style="display: none;"></video>
+    <mindar-viewer
+      id="viewer"
+      auto-start="true"
+      color-space="sRGB"
+      ui-loading="yes"
+      ui-scanning="yes"
+      ui-error="yes"
+      fit="cover"
+      debug="false"
+    >
+      <!-- Define el marcador -->
+      <mindar-image-target src="./targets.mind" target-index="0">
+        <!-- Modelo 3D que se mostrará -->
+        <a-entity
+          gltf-model="./botijo.glb"
+          position="0 0 0"
+          scale="0.5 0.5 0.5"
+          rotation="0 0 0"
+        ></a-entity>
+      </mindar-image-target>
+    </mindar-viewer>
+  </div>
+
+  <!-- A-Frame para 3D -->
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <!-- MindAR.js Script -->
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar-js@1.1.4/dist/mindar-image.min.js"></script>
+  <!-- Configuración inicial -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const viewer = document.querySelector("#viewer");
+      viewer.addEventListener("start", () => console.log("AR iniciado"));
+      viewer.addEventListener("stop", () => console.log("AR detenido"));
+    });
+  </script>
+</body>
+</html>
